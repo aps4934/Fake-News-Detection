@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction | Fake News Detector</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <header class="text-gray-400 bg-gray-900 body-font">
-        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-            <span class="ml-3 text-xl">Aditya's Creation</span>
-          </a>
-          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-white">Home</a>
-            <a class="mr-5 hover:text-white">Contact</a>
-            <a class="mr-5 hover:text-white">About Us</a>
-            <a class="mr-5 hover:text-white">Prediction</a>
-          </nav>
-          <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Button
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </button>
-        </div>
-      </header>
-      <hr>
-      <section class="text-gray-400 body-font bg-gray-900">
-        <div class="container px-5 py-24 mx-auto">
-          <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-white">Fake News Detection</h1>
-            <br><p><b>{{prediction_text}}</b></p>
+<body class="bg-gray-900 text-gray-300">
+  <!-- Navbar -->
+  <header class="bg-gray-800 shadow-lg">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <a class="flex title-font font-medium items-center text-yellow-400 mb-4 md:mb-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 p-2 bg-yellow-500 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/>
+        </svg>
+        <span class="ml-3 text-xl">Fake News Detector</span>
+      </a>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <a href="/" class="mr-5 hover:text-yellow-400">Home</a>
+        <a class="mr-5 hover:text-yellow-400">Contact</a>
+        <a class="mr-5 hover:text-yellow-400">About Us</a>
+        <a href="/prediction" class="mr-5 hover:text-yellow-400">Prediction</a>
+      </nav>
+    </div>
+  </header>
 
-          </div>  
-          <div class="center">
-            <form action="/prediction" method="POST">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Enter News Headlines</label><br>
-                  <input type="text" class="form-control" id="news" name="news" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Submit
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-            </form>
-          </div>
-      </section>
+  <!-- Prediction Section -->
+  <section class="text-gray-300 body-font bg-gray-900">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-12">
+        <h1 class="sm:text-4xl text-3xl font-bold title-font mb-4 text-yellow-400">
+          Fake News Detection
+        </h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-lg">
+          Enter a news headline below to check if it is <span class="text-yellow-400">Real</span> or <span class="text-red-400">Fake</span>.
+        </p>
+        <p class="mt-6 text-2xl"><b>{{prediction_text}}</b></p>
+      </div>
 
+      <form action="/prediction" method="POST" class="max-w-xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+        <label for="news" class="block mb-4 text-lg font-medium text-yellow-400">
+          Enter News Headline
+        </label>
+        <input type="text" id="news" name="news" class="w-full p-3 rounded bg-gray-900 border border-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-6" placeholder="Type your news headline here..." required>
+        <button class="w-full py-3 rounded bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition">
+          Detect Fake News
+        </button>
+      </form>
+    </div>
+  </section>
 </body>
 </html>
