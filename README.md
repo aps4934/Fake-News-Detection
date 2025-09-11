@@ -47,6 +47,10 @@ aps4934
 
 ---
 
+
+Dployed Link: https://fake-news-detection-1-vgdh.onrender.com/
+
+
 ### **3. Push README to GitHub**
 In your VS Code terminal:
 
