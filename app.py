@@ -3,6 +3,7 @@ from markupsafe import escape
 import pickle
 import os
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
 
 vector = pickle.load(open("vectorizer.pk", 'rb'))
@@ -10,6 +11,18 @@ model = pickle.load(open("finalized_model.pk", 'rb'))
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///news_headlines.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Headline(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    prediction = db.Column(db.String(10), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Headline {self.id}: {self.text[:50]}...>'
 
 @app.route('/')
 def home():
@@ -21,13 +34,15 @@ def prediction():
         news = str(request.form['news'])
         print(news)
 
-
         predict = model.predict(vector.transform([news]))[0]
         print(predict)
 
+        # Save to database
+        new_headline = Headline(text=news, prediction=predict)
+        db.session.add(new_headline)
+        db.session.commit()
+
         return render_template("prediction.html", prediction_text = "News headline is -> {}".format(predict))
-
-
 
     else:
         return render_template("prediction.html")
@@ -91,9 +106,16 @@ def generate_report():
         print(f"Error generating PDF: {e}")
         return "Error generating report", 500
 
+@app.route('/headlines')
+def headlines():
+    all_headlines = Headline.query.order_by(Headline.timestamp.desc()).all()
+    return render_template('headlines.html', headlines=all_headlines)
+
 @app.route('/health')
 def health():
     return {"status": "healthy", "timestamp": datetime.now().isoformat()}
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run()

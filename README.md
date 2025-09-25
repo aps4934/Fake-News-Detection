@@ -130,6 +130,7 @@ Fake-News-Detection/
 
 Created by Aditya Pratap Singh (aps4934).  
 Email: sadityapratap070@gmail.com  
+LinkedIn: https://www.linkedin.com/in/aps4934g/  
 Feel free to open issues or submit pull requests for improvements!
 
 ## 📜 License
