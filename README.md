@@ -85,63 +85,34 @@ curl -X POST http://localhost:5000/generate_report \
   -o fake_news_report.pdf
 ```
 
-## 🌐 Deployment
+## 🌐 Deployment on Render
 
-### Heroku Deployment
+### Step 1: Connect Your Repository
+1. Go to [Render.com](https://render.com) and sign in
+2. Click "New +" and select "Web Service"
+3. Connect your GitHub repository (`aps4934/Fake-News-Detection`)
 
-1. **Install Heroku CLI** and login:
-   ```bash
-   heroku login
-   ```
+### Step 2: Configure Build Settings
+- **Name**: `fake-news-detection` (or your preferred name)
+- **Environment**: `Python 3`
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `gunicorn --bind 0.0.0.0:$PORT app:app`
 
-2. **Create Heroku app**:
-   ```bash
-   heroku create your-app-name
-   ```
+### Step 3: Add Environment Variables
+In the Render dashboard, add these environment variables:
+- `NEWS_API_KEY`: Your NewsAPI key (optional, for news fetching)
+- `FLASK_ENV`: `production`
 
-3. **Set environment variables**:
-   ```bash
-   heroku config:set NEWS_API_KEY=your_api_key
-   ```
+### Step 4: Deploy
+- Click "Create Web Service"
+- Render will automatically build and deploy your application
+- Your app will be available at `https://your-app-name.onrender.com`
 
-4. **Deploy**:
-   ```bash
-   git push heroku main
-   ```
-
-### Render Deployment
-
-1. **Connect GitHub repository** to Render
-2. **Set build command**: `pip install -r requirements.txt`
-3. **Set start command**: `gunicorn app:app`
-4. **Add environment variables** in Render dashboard
-5. **Deploy**
-
-### Docker Deployment
-
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-EXPOSE 5000
-
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
-```
-
-```bash
-docker build -t fake-news-detector .
-docker run -p 5000:5000 fake-news-detector
-```
-
-### Local Production Deployment
-
-```bash
-gunicorn --bind 0.0.0.0:8000 app:app
-```
+### Troubleshooting Render Deployment
+- **Build Failures**: Check the build logs for specific error messages
+- **Python Version**: Render uses Python 3.13.4 - ensure compatibility
+- **Dependencies**: All packages in `requirements.txt` must be compatible with Python 3.13
+- **Port**: Use `$PORT` environment variable for the port binding
 
 ## 🛠 Technology Stack
 
