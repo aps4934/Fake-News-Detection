@@ -1,5 +1,8 @@
 # Fake News Detection 📰🤖
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Project-blue)](https://fake-news-detection-1-vgdh.onrender.com)
+
+
 A modern, professional web application built with Python Flask for detecting fake news using advanced machine learning models. Features a beautiful, responsive UI with comprehensive documentation and PDF report generation.
 
 ## 🚀 Features
