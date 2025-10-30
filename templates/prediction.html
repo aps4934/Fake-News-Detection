@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Fake News Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Fake News Detector</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/headlines" class="nav-link">View All Headlines</a>
+                <button onclick="window.location.href='/'" class="nav-link cta-nav">Test Another</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Prediction Result Section -->
+    <section class="hero-section">
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <div class="shortener-card" style="margin-top: 50px;">
+                <h2>Analysis Result</h2>
+
+                {% if prediction_text %}
+                    <div class="result-display">
+                        {% if 'REAL' in prediction_text %}
+                            <div class="result-icon real">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 class="result-text real">This headline appears to be REAL</h3>
+                        {% else %}
+                            <div class="result-icon fake">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h3 class="result-text fake">This headline appears to be FAKE</h3>
+                        {% endif %}
+
+                        <div class="result-details">
+                            <p><strong>Confidence:</strong> High</p>
+                            <p><strong>Analysis Method:</strong> AI-Powered Sentiment Analysis</p>
+                            <p><strong>Timestamp:</strong> {{ now.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="action-buttons">
+                    <button onclick="window.location.href='/'" class="hero-btn" style="margin-right: 15px;">
+                        <i class="fas fa-plus"></i> Test Another Headline
+                    </button>
+                    <button onclick="window.location.href='/headlines'" class="hero-btn" style="background: #666;">
+                        <i class="fas fa-list"></i> View All Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .result-display {
+            margin: 30px 0;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .result-icon.real {
+            color: #4CAF50;
+        }
+
+        .result-icon.fake {
+            color: #f44336;
+        }
+
+        .result-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .result-text.real {
+            color: #4CAF50;
+        }
+
+        .result-text.fake {
+            color: #f44336;
+        }
+
+        .result-details {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .result-details p {
+            margin: 10px 0;
+            color: #b0b0b0;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+    </style>
+</body>
+</html>

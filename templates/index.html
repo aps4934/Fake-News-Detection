@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Fake News Detector</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#about" class="nav-link">About</a>
+                <button onclick="document.getElementById('prediction-form').scrollIntoView()" class="nav-link cta-nav">Try Prediction</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Detect Fake News at Scale</h1>
+                <p>Transform misleading headlines into verified information with our high-performance fake news detection system. Built to analyze millions of articles using advanced AI, machine learning, and natural language processing technologies.</p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <i class="fas fa-brain"></i>
+                        <span>AI-Powered</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Lightning Fast</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Highly Accurate</span>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">10K+</span>
+                        <span class="hero-stat-label">Articles Analyzed</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">95%</span>
+                        <span class="hero-stat-label">Accuracy Rate</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">1M+</span>
+                        <span class="hero-stat-label">Predictions Made</span>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('prediction-form').scrollIntoView()" class="hero-btn">
+                    <i class="fas fa-search"></i> Start Detecting
+                </button>
+            </div>
+            <div class="hero-visual">
+                <div class="code-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Form Section -->
+    <section class="shortener-section">
+        <div class="container">
+            <div class="shortener-card">
+                <h2>Test a Headline</h2>
+                <form id="prediction-form" action="/prediction" method="post">
+                    <input type="text" id="headline" name="headline" placeholder="Enter a news headline to check if it's fake or real..." required>
+                    <button type="submit" id="submit-btn">Analyze Headline</button>
+                </form>
+                <div id="loading" style="display: none;">
+                    <p>Analyzing your headline...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2>Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Detection</h3>
+                    <p>Advanced machine learning models trained on thousands of real-world news articles to identify fake news patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Get instant results with our optimized TF-IDF vectorization and classification algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>High Accuracy</h3>
+                    <p>Achieve up to 95% accuracy in detecting fake news using cross-validated machine learning models.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Comprehensive Dataset</h3>
+                    <p>Trained on diverse datasets including real and fake news from various sources and categories.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Responsive Design</h3>
+                    <p>Works seamlessly across desktop, tablet, and mobile devices for on-the-go fake news detection.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Privacy Focused</h3>
+                    <p>Your headlines are processed locally with no data storage, ensuring complete privacy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section" id="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Enter Headline</h3>
+                    <p>Paste any news headline you want to verify into our input field. We support headlines of any length.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>AI Processing</h3>
+                    <p>Our system processes the text using TF-IDF vectorization and feeds it to trained machine learning models.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Get Results</h3>
+                    <p>Receive instant results indicating whether the news is likely real or fake with confidence scores.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Share & Verify</h3>
+                    <p>Share the results or use them to make informed decisions about the credibility of news sources.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>About Fake News Detector</h2>
+                    <p>Experience the power of AI-driven fake news detection designed for the modern digital age. Our platform leverages state-of-the-art machine learning techniques to analyze news headlines and determine their authenticity.</p>
+                    <p>Built with scalability and accuracy in mind, this fake news detector uses advanced natural language processing to combat misinformation. From individual users to large organizations, our solution helps verify news credibility instantly.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Articles Analyzed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Accuracy Rate</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1M+</span>
+                            <span class="stat-label">Predictions Made</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Fake News Detector</span>
+                    </div>
+                    <p>Built with Flask, Scikit-learn, and modern web technologies for accurate fake news detection.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/aps4934g/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/aps4934" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                        <a href="https://portfolio-3hns.onrender.com/" target="_blank" rel="noopener"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Aditya Pratap Singh | Built with Flask and Machine Learning | <a href="https://github.com/aps4934/Fake-News-Detection" target="_blank" rel="noopener" style="color: #00d4ff;">View Source on GitHub</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

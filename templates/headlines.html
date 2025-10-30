@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Headlines - Fake News Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Fake News Detector</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <button onclick="window.location.href='/'" class="nav-link cta-nav">Test New Headline</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Headlines Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>All Analyzed Headlines</h2>
+
+            {% if headlines %}
+                <div class="headlines-list">
+                    {% for headline in headlines %}
+                        <div class="headline-card">
+                            <div class="headline-content">
+                                <p class="headline-text">{{ headline.text }}</p>
+                                <div class="headline-meta">
+                                    <span class="prediction-badge {{ 'real' if headline.prediction == 'REAL' else 'fake' }}">
+                                        <i class="fas {{ 'fa-check-circle' if headline.prediction == 'REAL' else 'fa-exclamation-triangle' }}"></i>
+                                        {{ headline.prediction }}
+                                    </span>
+                                    <span class="timestamp">{{ headline.timestamp.strftime('%Y-%m-%d %H:%M') }}</span>
+                                    {% if headline.source != 'manual' %}
+                                        <span class="source">{{ headline.source }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-headlines">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No headlines analyzed yet</h3>
+                    <p>Start by testing a news headline on the home page.</p>
+                    <a href="/" class="hero-btn">Test First Headline</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <style>
+        .headlines-list {
+            display: grid;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .headline-card {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .headline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .headline-text {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .headline-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .prediction-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .prediction-badge.real {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .prediction-badge.fake {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .timestamp {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .source {
+            color: #4CAF50;
+            font-size: 0.9rem;
+            background-color: rgba(76, 175, 80, 0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .no-headlines {
+            text-align: center;
+            padding: 60px 20px;
+            color: #b0b0b0;
+        }
+
+        .no-headlines i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .no-headlines h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .no-headlines p {
+            margin-bottom: 30px;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+    </style>
+</body>
+</html>
