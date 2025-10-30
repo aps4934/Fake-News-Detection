@@ -3,20 +3,26 @@
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Project-blue)](https://fake-news-detection-1-vgdh.onrender.com)
 
 
-A modern, professional web application built with Python Flask for detecting fake news using advanced machine learning models. Features a beautiful, responsive UI with comprehensive documentation and PDF report generation.
+A modern, professional web application built with Python Flask for detecting fake news using advanced machine learning models including BERT/Transformers. Features a beautiful, responsive UI, real-time news fetching, browser extension, and comprehensive documentation.
 
 ## 🚀 Features
 
-- **AI-Powered Detection**: Predict whether a news headline is real or fake using a pre-trained ML model with 95%+ accuracy
-- **Modern UI/UX**: Beautiful, responsive design with dark theme and smooth animations
-- **PDF Report Generation**: Generate professional PDF reports of your analysis results
-- **Comprehensive Sections**: How It Works, Project Details, Contact information, and technical specifications
-- **Health Check Endpoint**: Built-in health monitoring for deployment
-- **Professional Design**: Modern interface with Tailwind CSS styling
-- **Mobile Responsive**: Works perfectly on all devices
-- **Fast Processing**: Real-time predictions with sub-second response times
+- **🤖 Advanced AI Detection**: BERT/Transformers model for superior fake news detection with fallback system
+- **📰 Real-time News Fetching**: Aggregate news from multiple online sources using NewsAPI
+- **🌐 Browser Extension**: Chrome/Firefox extension for one-click fake news detection on any webpage
+- **🎨 Modern Single-Page UI**: Responsive design with AJAX-powered predictions and improved visibility
+- **📊 PDF Report Generation**: Generate professional PDF reports of analysis results
+- **🧪 Comprehensive Testing**: Full test suite with 7/7 tests passing
+- **📱 Mobile Responsive**: Works perfectly on all devices
+- **⚡ Fast Processing**: Real-time predictions with sub-second response times
+- **🗄️ Database Integration**: SQLite database for news storage and management
 
 ## ⚙️ Installation (Local Setup)
+
+### Prerequisites
+- Python 3.8+
+- pip package manager
+- Git
 
 ### Clone the repository
 
@@ -25,18 +31,25 @@ git clone https://github.com/aps4934/Fake-News-Detection.git
 cd Fake-News-Detection
 ```
 
-### Create a virtual environment (optional but recommended)
+### Create a virtual environment (recommended)
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate   # On Linux/Mac
-.venv\Scripts\activate      # On Windows
+python -m venv newsapp
+source newsapp/bin/activate   # On Linux/Mac
+newsapp\Scripts\activate      # On Windows
 ```
 
 ### Install dependencies
 
 ```bash
 pip install -r requirements.txt
+```
+
+### Set up environment variables (optional)
+
+Create a `.env` file for NewsAPI key:
+```bash
+NEWS_API_KEY=your_newsapi_key_here
 ```
 
 ### Run the Flask app
@@ -50,60 +63,107 @@ Open your browser at 👉 http://localhost:5000
 ## 🔧 API Endpoints
 
 ### Main Routes
-- `GET /` - Home page with comprehensive information about the project
-- `GET/POST /prediction` - Fake news detection interface
-- `POST /generate_report` - Generate PDF report of analysis results
+- `GET /` - Home page with prediction form and comprehensive information
+- `GET /news` - View fetched news articles
+- `GET /extension` - Browser extension information and download
 - `GET /health` - Health check endpoint for monitoring
 
-### PDF Report Generation
-The application now includes professional PDF report generation:
+### API Endpoints
+- `POST /api/predict` - Fake news detection API
+  ```json
+  {
+    "text": "Your news headline here"
+  }
+  ```
+- `GET /api/fetch_news` - Fetch latest news articles
+- `POST /prediction` - Legacy prediction endpoint
 
+### PDF Report Generation
 ```bash
 curl -X POST http://localhost:5000/generate_report \
   -d "news=Your news headline here" \
   -o fake_news_report.pdf
 ```
 
-## 🎨 User Interface Features
-
-### Home Page Sections
-- **Hero Section**: Welcome message with call-to-action buttons
-- **Features**: Why choose our fake news detector
-- **How It Works**: Step-by-step process explanation
-- **Project Details**: Technology stack, model information, and key features
-- **Contact**: Contact information and links to GitHub
-
-### Prediction Page Features
-- **Dual Action Buttons**: Detect fake news and generate PDF report
-- **Model Explanation**: Detailed information about how the AI works
-- **Performance Metrics**: Accuracy rates and processing times
-- **Professional Contact Information**: Links to GitHub, documentation, and support
-
 ## 🌐 Deployment
 
-1. Push your code to GitHub (make sure requirements.txt and Procfile are included).
-2. Deploy on Heroku or similar platform using the Procfile.
+### Heroku Deployment
 
-Deployed Link: https://fake-news-detection-1-vgdh.onrender.com/
+1. **Install Heroku CLI** and login:
+   ```bash
+   heroku login
+   ```
+
+2. **Create Heroku app**:
+   ```bash
+   heroku create your-app-name
+   ```
+
+3. **Set environment variables**:
+   ```bash
+   heroku config:set NEWS_API_KEY=your_api_key
+   ```
+
+4. **Deploy**:
+   ```bash
+   git push heroku main
+   ```
+
+### Render Deployment
+
+1. **Connect GitHub repository** to Render
+2. **Set build command**: `pip install -r requirements.txt`
+3. **Set start command**: `gunicorn app:app`
+4. **Add environment variables** in Render dashboard
+5. **Deploy**
+
+### Docker Deployment
+
+```dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+EXPOSE 5000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+```
+
+```bash
+docker build -t fake-news-detector .
+docker run -p 5000:5000 fake-news-detector
+```
+
+### Local Production Deployment
+
+```bash
+gunicorn --bind 0.0.0.0:8000 app:app
+```
 
 ## 🛠 Technology Stack
 
 ### Backend
 - **Python Flask**: Web framework for the application
-- **Scikit-learn**: Machine learning library for the fake news detection model
-- **WeasyPrint**: PDF generation for professional reports
-- **Pickle**: Model serialization for fast loading
+- **BERT/Transformers**: Advanced NLP model for fake news detection
+- **Scikit-learn**: Traditional ML models with TF-IDF vectorization
+- **NewsAPI**: Real-time news fetching and aggregation
+- **SQLite**: Database for news storage
 - **Gunicorn**: WSGI server for production deployment
+- **WeasyPrint**: PDF generation for professional reports
 
 ### Frontend
 - **HTML5**: Semantic markup structure
-- **Tailwind CSS**: Utility-first CSS framework for modern styling
-- **JavaScript**: Interactive functionality for PDF generation
+- **Custom CSS**: Modern styling with dark theme and animations
+- **JavaScript**: AJAX functionality for seamless user experience
 - **Responsive Design**: Mobile-first approach with breakpoints
 
 ### Machine Learning
+- **BERT Model**: State-of-the-art transformer model for text classification
+- **Fallback System**: Traditional ML models for reliability
 - **TF-IDF Vectorization**: Feature extraction from text data
-- **Classification Algorithms**: Trained on thousands of news articles
 - **Cross-validation**: Ensures model reliability and accuracy
 - **Real-time Processing**: Sub-second prediction times
 
@@ -112,30 +172,110 @@ Deployed Link: https://fake-news-detection-1-vgdh.onrender.com/
 ```
 Fake-News-Detection/
 │
-├── app.py               # Flask backend application
-├── requirements.txt     # Python dependencies
-├── Procfile             # For deployment
-├── finalized_model.pk   # Pre-trained ML model
-├── vectorizer.pk        # TF-IDF vectorizer
-├── news.csv             # Dataset
-├── Fake news.ipynb      # Jupyter notebook for model training/experiments
+├── app.py                    # Main Flask application
+├── app_new.py               # Alternative app configuration
+├── requirements.txt         # Python dependencies
+├── Procfile                # Heroku deployment configuration
+├── test_app.py             # Comprehensive test suite
+├── test_pdf.py             # PDF generation tests
+├── TODO.md                 # Project roadmap and tasks
 │
-├── templates/           # HTML templates
-│   ├── index.html
-│   └── prediction.html
+├── models/                 # Machine learning models
+│   ├── bert_model.py       # BERT implementation
+│   └── __pycache__/
 │
-└── static/              # Static files (images, etc.)
-    ├── image.svg
-    └── image2.svg
+├── utils/                  # Utility functions
+│   ├── news_fetcher.py     # News API integration
+│   └── __pycache__/
+│
+├── browser_extension/      # Browser extension files
+│   ├── manifest.json
+│   ├── popup.html
+│   ├── popup.js
+│   ├── content.js
+│   ├── background.js
+│   ├── styles.css
+│   └── README.md
+│
+├── templates/              # HTML templates
+│   ├── index.html          # Main page with prediction form
+│   ├── prediction.html     # Legacy prediction page
+│   ├── news.html           # News articles display
+│   ├── extension.html      # Extension information
+│   └── headlines.html
+│
+├── static/                 # Static files
+│   ├── styles.css          # Custom CSS styling
+│   └── script.js           # JavaScript functionality
+│
+└── instance/               # Database files
+    └── news_headlines.db
 ```
+
+## 🧪 Testing
+
+Run the comprehensive test suite:
+
+```bash
+python test_app.py
+```
+
+Expected output: `📊 Test Results: 7/7 tests passed`
+
+## 🌐 Browser Extension Setup
+
+### Chrome Extension
+1. Open Chrome and go to `chrome://extensions/`
+2. Enable "Developer mode"
+3. Click "Load unpacked" and select the `browser_extension` folder
+4. The extension will be installed and ready to use
+
+### Firefox Extension
+1. Open Firefox and go to `about:debugging`
+2. Click "This Firefox" → "Load Temporary Add-on"
+3. Select `manifest.json` from the `browser_extension` folder
+
+## 📊 Usage Examples
+
+### API Usage
+```python
+import requests
+
+# Test fake news detection
+response = requests.post('http://localhost:5000/api/predict',
+                        json={'text': 'Your news headline here'})
+print(response.json())
+# {'prediction': 'REAL', 'confidence': 'High', 'timestamp': '...'}
+
+# Fetch news articles
+news = requests.get('http://localhost:5000/api/fetch_news')
+print(news.json())
+```
+
+### Browser Extension
+1. Install the extension as described above
+2. Navigate to any news website
+3. Click the extension icon
+4. Paste or select headline text
+5. Get instant fake news analysis
 
 ## 👤 Creator
 
 Created by Aditya Pratap Singh (aps4934).  
 Email: sadityapratap070@gmail.com  
 LinkedIn: https://www.linkedin.com/in/aps4934g/  
+Portfolio: https://portfolio-3hns.onrender.com/  
+GitHub: https://github.com/aps4934  
+
 Feel free to open issues or submit pull requests for improvements!
 
 ## 📜 License
 
 This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- BERT model implementation inspired by Hugging Face Transformers
+- NewsAPI for real-time news data
+- Font Awesome for icons
+- WeasyPrint for PDF generation
