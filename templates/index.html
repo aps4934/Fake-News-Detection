@@ -21,7 +21,7 @@
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#how-it-works" class="nav-link">How It Works</a>
                 <a href="#about" class="nav-link">About</a>
-                <button onclick="document.getElementById('prediction-form').scrollIntoView()" class="nav-link cta-nav">Try Prediction</button>
+                <button onclick="document.getElementById('prediction').scrollIntoView()" class="nav-link cta-nav">Try Prediction</button>
             </div>
         </div>
     </nav>
@@ -60,7 +60,7 @@
                         <span class="hero-stat-label">Predictions Made</span>
                     </div>
                 </div>
-                <button onclick="document.getElementById('prediction-form').scrollIntoView()" class="hero-btn">
+                <button onclick="document.getElementById('prediction').scrollIntoView()" class="hero-btn">
                     <i class="fas fa-search"></i> Start Detecting
                 </button>
             </div>
@@ -73,17 +73,18 @@
     </section>
 
     <!-- Prediction Form Section -->
-    <section class="shortener-section">
+    <section class="shortener-section" id="prediction">
         <div class="container">
             <div class="shortener-card">
                 <h2>Test a Headline</h2>
-                <form id="prediction-form" action="/prediction" method="post">
-                    <input type="text" id="headline" name="headline" placeholder="Enter a news headline to check if it's fake or real..." required>
-                    <button type="submit" id="submit-btn">Analyze Headline</button>
+                <form id="prediction-form">
+                    <input type="text" id="news" name="news" placeholder="Enter a news headline to check if it's fake or real..." required>
+                    <button type="submit" id="submit-btn">🔍 Detect Fake News</button>
                 </form>
                 <div id="loading" style="display: none;">
                     <p>Analyzing your headline...</p>
                 </div>
+                <div id="prediction-result" style="display: none;"></div>
             </div>
         </div>
     </section>
@@ -240,7 +241,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Aditya Pratap Singh | Built with Flask and Machine Learning | <a href="https://github.com/aps4934/Fake-News-Detection" target="_blank" rel="noopener" style="color: #00d4ff;">View Source on GitHub</a></p>
+                <p>&copy; 2024 Aditya Pratap Singh | Built with Flask and Machine Learning | <a href="https://github.com/aps4934/Fake-News-Detection" target="_blank" rel="noopener" style="color: #4CAF50;">View Source on GitHub</a></p>
             </div>
         </div>
     </footer>

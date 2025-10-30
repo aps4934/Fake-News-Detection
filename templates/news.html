@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest News | Fake News Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Fake News Detector</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#news" class="nav-link">Latest News</a>
+                <a href="/prediction" class="nav-link">Test Headline</a>
+                <a href="/headlines" class="nav-link">History</a>
+                <a href="/extension" class="nav-link">Browser Extension</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- News Header -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Latest News from Trusted Sources</h1>
+                <p>Stay informed with real-time news from verified sources. Our AI analyzes headlines to help you identify misinformation.</p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <i class="fas fa-globe"></i>
+                        <span>Global Coverage</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-clock"></i>
+                        <span>Real-time Updates</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>AI-Verified</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Controls -->
+    <section class="shortener-section">
+        <div class="container">
+            <div class="shortener-card">
+                <h2>Fetch Latest News</h2>
+                <div class="news-controls">
+                    <div class="control-group">
+                        <label for="category">Category:</label>
+                        <select id="category">
+                            <option value="">All Categories</option>
+                            <option value="business">Business</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="general">General</option>
+                            <option value="health">Health</option>
+                            <option value="science">Science</option>
+                            <option value="sports">Sports</option>
+                            <option value="technology">Technology</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="search">Search:</label>
+                        <input type="text" id="search" placeholder="Search for specific topics...">
+                    </div>
+                    <div class="button-group">
+                        <button onclick="fetchNews()" id="fetch-btn">🔄 Fetch News</button>
+                        <button onclick="analyzeAllNews()" id="analyze-btn">🔍 Analyze All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Articles -->
+    <section class="news-section">
+        <div class="container">
+            <div id="loading" style="display: none; text-align: center; padding: 40px;">
+                <p>Loading news articles...</p>
+            </div>
+
+            <div id="news-container" class="news-grid">
+                <!-- News articles will be loaded here -->
+            </div>
+
+            <div id="no-news" style="display: none; text-align: center; padding: 40px;">
+                <p>No news articles found. Try adjusting your search criteria.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Fake News Detector</span>
+                    </div>
+                    <p>Built with Flask, BERT Transformers, and modern web technologies for accurate fake news detection.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/prediction">Test Headline</a></li>
+                        <li><a href="/headlines">History</a></li>
+                        <li><a href="/extension">Browser Extension</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/aps4934g/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/aps4934" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                        <a href="https://portfolio-3hns.onrender.com/" target="_blank" rel="noopener"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Aditya Pratap Singh | Built with Flask and Machine Learning | <a href="https://github.com/aps4934/Fake-News-Detection" target="_blank" rel="noopener" style="color: #2196F3;">View Source on GitHub</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentArticles = [];
+
+        async function fetchNews() {
+            const category = document.getElementById('category').value;
+            const query = document.getElementById('search').value;
+            const loading = document.getElementById('loading');
+            const container = document.getElementById('news-container');
+            const noNews = document.getElementById('no-news');
+
+            loading.style.display = 'block';
+            container.innerHTML = '';
+            noNews.style.display = 'none';
+
+            try {
+                const params = new URLSearchParams();
+                if (category) params.append('category', category);
+                if (query) params.append('query', query);
+                params.append('limit', '20');
+
+                const response = await fetch(`/api/fetch_news?${params}`);
+                const data = await response.json();
+
+                if (data.articles && data.articles.length > 0) {
+                    currentArticles = data.articles;
+                    displayNews(data.articles);
+                } else {
+                    noNews.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                noNews.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function displayNews(articles) {
+            const container = document.getElementById('news-container');
+
+            articles.forEach(article => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'news-card';
+                articleCard.innerHTML = `
+                    <div class="news-image">
+                        <img src="${article.urlToImage || '/static/placeholder-news.jpg'}" alt="News Image" onerror="this.src='/static/placeholder-news.jpg'">
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">${article.title}</h3>
+                        <p class="news-description">${article.description || 'No description available.'}</p>
+                        <div class="news-meta">
+                            <span class="news-source">${article.source}</span>
+                            <span class="news-date">${new Date(article.publishedAt).toLocaleDateString()}</span>
+                        </div>
+                        <div class="news-actions">
+                            <button onclick="analyzeArticle('${article.title.replace(/'/g, "\\'")}', '${article.url}')" class="analyze-btn">🔍 Analyze</button>
+                            <a href="${article.url}" target="_blank" class="read-btn">📖 Read Full Article</a>
+                        </div>
+                        <div class="prediction-result" id="result-${article.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}" style="display: none;"></div>
+                    </div>
+                `;
+                container.appendChild(articleCard);
+            });
+        }
+
+        async function analyzeArticle(title, url) {
+            const resultDiv = document.getElementById(`result-${title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`);
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>Analyzing...</p>';
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: title })
+                });
+
+                const data = await response.json();
+
+                if (data.prediction) {
+                    const isReal = data.prediction === 'REAL';
+                    resultDiv.innerHTML = `
+                        <h4>Analysis Result:</h4>
+                        <p class="result-text ${isReal ? 'real' : 'fake'}">
+                            This headline is predicted to be <strong>${data.prediction}</strong>
+                        </p>
+                        <p><small>Confidence: ${data.confidence || 'High'}</small></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p class="error">Error analyzing article</p>';
+                }
+            } catch (error) {
+                console.error('Error analyzing article:', error);
+                resultDiv.innerHTML = '<p class="error">Error analyzing article</p>';
+            }
+        }
+
+        async function analyzeAllNews() {
+            if (currentArticles.length === 0) {
+                alert('Please fetch news first');
+                return;
+            }
+
+            const analyzeBtn = document.getElementById('analyze-btn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = 'Analyzing...';
+
+            try {
+                const response = await fetch('/api/analyze_news', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ articles: currentArticles })
+                });
+
+                const data = await response.json();
+
+                if (data.results) {
+                    // Update UI with results
+                    data.results.forEach(result => {
+                        const resultDiv = document.getElementById(`result-${result.title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`);
+                        if (resultDiv) {
+                            resultDiv.style.display = 'block';
+                            const isReal = result.prediction === 'REAL';
+                            resultDiv.innerHTML = `
+                                <h4>Analysis Result:</h4>
+                                <p class="result-text ${isReal ? 'real' : 'fake'}">
+                                    This headline is predicted to be <strong>${result.prediction}</strong>
+                                </p>
+                            `;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error analyzing news:', error);
+                alert('Error analyzing news articles');
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = '🔍 Analyze All';
+            }
+        }
+
+        // Load initial news on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchNews();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo {
+      font-size: 24px;
+      color: #2196F3;
+      margin-bottom: 10px;
+    }
+    .status {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .status.connected {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .status.disconnected {
+      background-color: #f44336;
+      color: white;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .input-group textarea {
+      width: 100%;
+      height: 80px;
+      padding: 8px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #1976D2;
+    }
+    button:disabled {
+      background-color: #666;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    .result.real {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .result.fake {
+      background-color: #f44336;
+      color: white;
+    }
+    .history {
+      margin-top: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .history-item {
+      padding: 8px;
+      border-bottom: 1px solid #333;
+      font-size: 12px;
+    }
+    .history-item .text {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+    .history-item .prediction {
+      font-size: 11px;
+    }
+    .settings {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+    }
+    .settings label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .settings input[type="checkbox"] {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">📰 Fake News Detector</div>
+    <div id="status" class="status disconnected">Checking connection...</div>
+  </div>
+
+  <div class="input-group">
+    <label for="headline">Enter News Headline:</label>
+    <textarea id="headline" placeholder="Paste a news headline here..."></textarea>
+  </div>
+
+  <button id="analyze-btn">🔍 Analyze Headline</button>
+
+  <div id="result" class="result"></div>
+
+  <div class="settings">
+    <label>
+      <input type="checkbox" id="auto-scan" checked>
+      Auto-scan headlines on news sites
+    </label>
+    <label>
+      <input type="checkbox" id="show-confidence">
+      Show confidence scores
+    </label>
+  </div>
+
+  <div class="history">
+    <h4>Recent Analysis:</h4>
+    <div id="history-list"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
